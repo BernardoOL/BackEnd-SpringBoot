@@ -22,17 +22,19 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+    private String description;
+    private Double price;
+    private String imgUrl;
 
     @Transient
-    private Set<Product> products = new HashSet<>();
+    private Set<Category> categories  = new HashSet<>();
 
 }
