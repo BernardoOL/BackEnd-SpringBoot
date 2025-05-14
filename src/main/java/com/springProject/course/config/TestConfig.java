@@ -3,20 +3,15 @@ package com.springProject.course.config;
 import java.time.Instant;
 import java.util.Arrays;
 
+import com.springProject.course.entities.*;
+import com.springProject.course.entities.pk.OrderItemPK;
+import com.springProject.course.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.springProject.course.entities.Category;
-import com.springProject.course.entities.Order;
-import com.springProject.course.entities.Product;
-import com.springProject.course.entities.User;
 import com.springProject.course.entities.enums.OrderStatus;
-import com.springProject.course.repository.CategoryRepository;
-import com.springProject.course.repository.OrderRepository;
-import com.springProject.course.repository.ProductRepository;
-import com.springProject.course.repository.UserRepository;
 
 @Configuration
 @Profile("test")
@@ -33,6 +28,9 @@ public class TestConfig implements CommandLineRunner{
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -112,10 +110,35 @@ public class TestConfig implements CommandLineRunner{
         product3.getCategories().add(category3);
         product4.getCategories().add(category3);
         product5.getCategories().add(category2);
-        
 
         productRepository.saveAll(Arrays.asList(product1, product2, product3, product4, product5));
-        
+
+        OrderItem orderItem1 = OrderItem.builder()
+                .id(new OrderItemPK(order1, product1))
+                .quantity(2)
+                .price(product1.getPrice())
+                .build();
+
+        OrderItem orderItem2 = OrderItem.builder()
+                .id(new OrderItemPK(order1, product3))
+                .quantity(1)
+                .price(product3.getPrice())
+                .build();
+
+        OrderItem orderItem3 = OrderItem.builder()
+                .id(new OrderItemPK(order2, product3))
+                .quantity(2)
+                .price(product3.getPrice())
+                .build();
+
+        OrderItem orderItem4 = OrderItem.builder()
+                .id(new OrderItemPK(order3, product5))
+                .quantity(2)
+                .price(product5.getPrice())
+                .build();
+
+        orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3, orderItem4));
+
     }
 
 }
