@@ -21,16 +21,16 @@ public class UserResource {
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
-        List<User> list = userService.findAll();
+        List<User> userList = userService.findAll();
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(userList);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id){
-        User obj = userService.findById(id);
+        User user = userService.findById(id);
 
-        return ResponseEntity.ok().body(obj);
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping
@@ -47,4 +47,11 @@ public class UserResource {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
+        var userUpdated = userService.update(id, user);
+        return ResponseEntity.ok().body(userUpdated);
+    }
+
 }

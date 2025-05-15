@@ -19,16 +19,28 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        Optional<User> obj = userRepository.findById(id);
-        return obj.get();
+        Optional<User> user = userRepository.findById(id);
+        return user.get();
     }
 
-    public User insert(User obj) {
-        return userRepository.save(obj);
+    public User insert(User user) {
+        return userRepository.save(user);
     }
 
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User update(Long id, User user) {
+        User entity = userRepository.getReferenceById(id); // Objeto monitorado pelo JPA
+        updateData(entity, user);
+        return userRepository.save(entity);
+    }
+
+    public void updateData(User entity, User user){
+        entity.setName(user.getName());
+        entity.setEmail(user.getEmail());
+        entity.setPhone(user.getPhone());
     }
 
 }
