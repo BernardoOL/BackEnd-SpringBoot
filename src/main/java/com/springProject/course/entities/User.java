@@ -1,6 +1,7 @@
 package com.springProject.course.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +29,22 @@ public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    private String birthDate;
+
     private String email;
+
     private String phone;
+
+    private String adress;
+
+    private String gender;
+
+    private Instant Inclusion;
+
+    // TODO - Tirar a senha
     private String password;
 
     @Builder.Default

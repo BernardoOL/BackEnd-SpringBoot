@@ -1,6 +1,7 @@
 package com.springProject.course.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,8 @@ public class Product implements Serializable {
     private String description;
     private Double price;
     private String imgUrl;
+    private String active;
+    private Instant inclusion;
 
     @Builder.Default
     @ManyToMany
