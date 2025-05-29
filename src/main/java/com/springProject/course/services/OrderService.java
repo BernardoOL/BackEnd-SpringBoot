@@ -1,26 +1,26 @@
 package com.springProject.course.services;
-import java.util.Optional;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.springProject.course.entities.Order;
-import com.springProject.course.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    ShippingService shippingService;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
-    }
+    @Autowired
+    DiscountService discountService;
 
-    public Order findById(Long id) {
-        Optional<Order> obj = orderRepository.findById(id);
-        return obj.get();
+    public double total(Order order) {
+        var valor = order.getBasic();
+        var discount = discountService.discount(order);
+        var frete = shippingService.shipment(order);
+
+        var total = (valor - discount) + frete;
+
+        return total;
     }
 
 }
