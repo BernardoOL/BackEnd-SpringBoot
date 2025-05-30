@@ -145,8 +145,6 @@ public class TestConfig implements CommandLineRunner{
                 .order(order1)
                 .build();
 
-        order1.setPayment(payment1);
-
         orderRepository.save(order1);
 
     }

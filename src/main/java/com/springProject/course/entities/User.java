@@ -1,13 +1,9 @@
 package com.springProject.course.entities;
 
 import java.io.Serializable;
-
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -34,6 +30,9 @@ public class User implements Serializable{
     private String birthDate;
 
     private String password;
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     @Override
     public int hashCode() {

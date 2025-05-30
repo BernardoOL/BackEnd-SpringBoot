@@ -2,24 +2,18 @@ package com.springProject.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.springProject.course.entities.enums.OrderStatus;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
-@Table(name = "tb_order")
+@Table(name = "TB_ORDER")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,26 +21,18 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long totalPrice;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant moment;
 
     private Integer orderStatus;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant inclusion;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
 
-    @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> items = new HashSet<>();
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Payment payment;
-
-    public Order(Long id, Instant inclusiomn, OrderStatus orderStatus, User client) {
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
-        this.inclusion = inclusiomn;
+        this.moment = moment;
         setOrderStatus(orderStatus);
         this.client = client;
     }
@@ -59,14 +45,6 @@ public class Order implements Serializable {
         if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
-    }
-
-    public double getTotal(){
-        double total = 0;
-        for (OrderItem item : items) {
-            total += item.getSubTotal();
-        }
-        return total;
     }
 
 
