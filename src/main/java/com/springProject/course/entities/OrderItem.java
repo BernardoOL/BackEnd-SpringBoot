@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "TB_ORDEM_ITEM")
+@Table(name = "TB_ORDER_ITEM")
 public class OrderItem {
 
     @EmbeddedId

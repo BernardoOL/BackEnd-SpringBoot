@@ -3,8 +3,10 @@ package com.springProject.course.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.springProject.course.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +27,7 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
-    private Integer orderStatus;
+    private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -36,6 +38,10 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    public List<Product> getProducts() {
+        return items.stream().map(OrderItem::getProduct).toList();
+    }
 
 
     @Override
