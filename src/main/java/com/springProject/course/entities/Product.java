@@ -4,6 +4,7 @@ package com.springProject.course.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "TB_PRODUCT")
-public class Product {
+public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

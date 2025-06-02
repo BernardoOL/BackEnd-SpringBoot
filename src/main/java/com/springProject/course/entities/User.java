@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "TB_USER")
-public class User implements Serializable{
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
