@@ -25,4 +25,9 @@ public class ProductController {
         return productService.findById(id);
     }
 
+    @PostMapping()
+    public ProductDTO insert(@RequestBody ProductDTO productDTO) {
+        return productService.insert(productDTO);
+    }
+
 }
