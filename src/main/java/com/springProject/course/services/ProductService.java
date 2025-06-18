@@ -3,11 +3,14 @@ package com.springProject.course.services;
 import com.springProject.course.dto.ProductDTO;
 import com.springProject.course.entities.Product;
 import com.springProject.course.repositories.ProductRepository;
+import com.springProject.course.services.exceptions.DataBaseException;
 import com.springProject.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -48,11 +51,19 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
-    @Transactional
-    public void delete(long id) {
-        productRepository.deleteById(id);
-    }
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try {
+            productRepository.deleteById(id);
 
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Falha de integridade referêncial");
+        }
+
+    }
 
     public Product copyDtoToEntity(Product product, ProductDTO productDTO) {
         product.setName(productDTO.getName());
