@@ -5,6 +5,7 @@ import com.springProject.course.entities.Product;
 import com.springProject.course.repositories.ProductRepository;
 import com.springProject.course.services.exceptions.DataBaseException;
 import com.springProject.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -44,11 +45,15 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO productDTO) {
-        Product product = productRepository.getReferenceById(id);
-        product = copyDtoToEntity(product, productDTO);
-        product = productRepository.save(product);
+        try {
+            Product product = productRepository.getReferenceById(id);
+            product = copyDtoToEntity(product, productDTO);
+            product = productRepository.save(product);
 
-        return new ProductDTO(product);
+            return new ProductDTO(product);
+        } catch (EntityNotFoundException e ){
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
